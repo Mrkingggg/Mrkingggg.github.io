@@ -95,7 +95,24 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h2 id="前缀树-Trie-Tree"><a href="#前缀树-Trie-Tree" class="headerlink" title="前缀树 Trie Tree"></a>前缀树 Trie Tree</h2><h4 id="1-前缀树"><a href="#1-前缀树" class="headerlink" title="1. 前缀树"></a>1. 前缀树</h4><p>前缀树是一种<code>N叉树</code>，每一个节点代表一个<code>字符串</code>或<code>前缀</code></p>
+<p><img src="/2025/03/31/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91Trie-Tree/trietree1.png"></p>
+<p>注意：根节点为空字符串</p>
+<h4 id="2-子节点如何表示"><a href="#2-子节点如何表示" class="headerlink" title="2. 子节点如何表示"></a>2. 子节点如何表示</h4><h5 id="1-数组-SubNode-26-nodes-targetChar-a-为下标"><a href="#1-数组-SubNode-26-nodes-targetChar-a-为下标" class="headerlink" title="1. 数组 SubNode[26] nodes: targetChar - &#39;a&#39;为下标"></a>1. 数组 SubNode[26] nodes: <code>targetChar - &#39;a&#39;</code>为下标</h5><p>查询时看当前节点的子节点数组是否有相应字符 <code>SubNode[thisChar - &#39;a&#39;]</code>是否为空</p>
+<p>插入时先查询，如果有则进入该节点；若无则插入</p>
+<h5 id="2-HashMap：-key-字符，-value-SubNode"><a href="#2-HashMap：-key-字符，-value-SubNode" class="headerlink" title="2. HashMap： key &#x3D; 字符， value &#x3D; SubNode"></a>2. HashMap： key &#x3D; 字符， value &#x3D; SubNode</h5><p>在只考虑26个字母的情况下，没有比数组查询慢很多，但不用预先创建长度为26TreeNode的数组</p>
+<h4 id="3-Insertion"><a href="#3-Insertion" class="headerlink" title="3. Insertion"></a>3. Insertion</h4><h5 id="1-创建空字符串为初始根Node"><a href="#1-创建空字符串为初始根Node" class="headerlink" title="1. 创建空字符串为初始根Node"></a>1. 创建空字符串为初始根Node</h5><h5 id="2-判断"><a href="#2-判断" class="headerlink" title="2. 判断"></a>2. 判断</h5><p>​	如果存在当前遍历到字符的子节点 –&gt; 当前节点 &#x3D; 子节点；</p>
+<p>​	反之新建节点，并存入子节点，最后当前节点也要变为子节点</p>
+<h4 id="4-Search"><a href="#4-Search" class="headerlink" title="4. Search"></a>4. Search</h4><p>遍历字符串<code>target</code>, 同时初始化<code>Trie Tree</code>移动指针为根节点（空字符串）：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 伪代码</span><br><span class="line">Node tmp = root根节点</span><br><span class="line">for 字符 in target</span><br><span class="line">	if(tmp.subNode有该字符节点)</span><br><span class="line">		tmp = tmp.subNode该子节点</span><br><span class="line">	else</span><br><span class="line">		return false</span><br></pre></td></tr></table></figure>
+
+
+
+<p>相关： Leetcode 208</p>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/vincent1997/p/11237389.html">数据结构丨前缀树 - vincent1997 - 博客园</a></p>
+</blockquote>
+
       
     </div>
     <footer class="article-footer">
