@@ -96,10 +96,7 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>LeetCode 221 最大正方形</p>
-<img src="maxAreaSquare.png" style="zoom:50%;" />
-
-
-
+<p><img src="/2025/03/31/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91Trie-Tree/e.png"></p>
 <h5 id="几种情况"><a href="#几种情况" class="headerlink" title="几种情况"></a>几种情况</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">int[][] dp = new int[rowlen][colen] // 记录右下角为(i, j)的全1正方形最大边长</span><br><span class="line"></span><br><span class="line">while loop of i in rowlen &amp;&amp; j in column-len:</span><br><span class="line"></span><br><span class="line">    if (i == 0 || j == 0)</span><br><span class="line">      dp[i][j] = matrix[i][j] - &#x27;0&#x27; // char maxtrix</span><br><span class="line">	  </span><br><span class="line">    if (i !=0 &amp;&amp; j != 0)</span><br><span class="line">    </span><br><span class="line">      if(dp[i][j] == &#x27;0&#x27;) dp[i][j] = 0 // 右下角为0，该点不能扩大正方形面积</span><br><span class="line">      </span><br><span class="line">      else dp[i][j] = MIN(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1 // 公式</span><br><span class="line"></span><br><span class="line">    maxArea = MAX(maxArea, dp[i][j]^2)</span><br><span class="line"></span><br><span class="line">return maxArea</span><br></pre></td></tr></table></figure>
 
 
