@@ -13,15 +13,15 @@
 <meta property="og:site_name" content="Mrking">
 <meta property="og:description" content="Leetcode 207 课程表 拓扑排序：依赖关系&#x2F;先后顺序、有向图、检测循环、BFS(&#x2F;DFS)例，lc207描述：  方法&amp;步骤： 构建“有向图”：实际用HashMap记录每个先序节点的直接后序节点列表list  123456789101112131415161718192021&#x2F;&#x2F;输入：int[][] prerequsites, [后序][先序]HashMap&amp;">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="d:\Hexo\hexo-blog\source_posts\%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F\lc207%E8%AF%BE%E7%A8%8B%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/c207%E8%AF%BE%E7%A8%8B%E8%A1%A8.png">
 <meta property="og:image" content="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/ooped.png">
 <meta property="og:image" content="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/nlooped.png">
 <meta property="article:published_time" content="2025-04-01T08:54:57.000Z">
-<meta property="article:modified_time" content="2025-04-01T09:14:27.655Z">
+<meta property="article:modified_time" content="2025-04-01T09:31:05.971Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="拓扑排序,BFS, 有向图, 出入度">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="d:\Hexo\hexo-blog\source_posts\%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F\lc207%E8%AF%BE%E7%A8%8B%E8%A1%A8.png">
+<meta name="twitter:image" content="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/c207%E8%AF%BE%E7%A8%8B%E8%A1%A8.png">
   
     <link rel="alternate" href="/atom.xml" title="Mrking" type="application/atom+xml">
   
@@ -102,7 +102,7 @@
       
         <p>Leetcode 207 课程表</p>
 <h4 id="拓扑排序：依赖关系-先后顺序、有向图、检测循环、BFS-DFS"><a href="#拓扑排序：依赖关系-先后顺序、有向图、检测循环、BFS-DFS" class="headerlink" title="拓扑排序：依赖关系&#x2F;先后顺序、有向图、检测循环、BFS(&#x2F;DFS)"></a>拓扑排序：依赖关系&#x2F;先后顺序、有向图、检测循环、BFS(&#x2F;DFS)</h4><p>例，lc207描述：</p>
-<p><img src="D:\Hexo\hexo-blog\source_posts\每日算法之拓扑排序\lc207课程表.png"></p>
+<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/c207%E8%AF%BE%E7%A8%8B%E8%A1%A8.png"></p>
 <h5 id="方法-步骤："><a href="#方法-步骤：" class="headerlink" title="方法&amp;步骤："></a>方法&amp;步骤：</h5><ol>
 <li>构建“有向图”：实际用<code>HashMap</code>记录每个先序节点的直接后序节点列表<code>list</code></li>
 </ol>
@@ -115,7 +115,7 @@
 <p><strong>while loop until queue.isEmpty( ) :</strong></p>
 <ul>
 <li>记录当前队列<code>size</code></li>
-<li>从队列头移除节点，拿出节点的后序列表，给每一个后序节点入度indegree[latter]减一</li>
+<li>从队列头移除节点，拿出节点的后序列表（注意判空，就算是空也别忘移除hashmap的key），给每一个后序节点入度indegree[latter]减一</li>
 <li>及时判断每次减一后该后序节点是否为0入度，是：加入队列 – 类似二叉树层序遍历，动态添加</li>
 <li>最后在hashmap中也删除该0入度节点</li>
 </ul>

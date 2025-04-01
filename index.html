@@ -97,7 +97,7 @@
       
         <p>Leetcode 207 课程表</p>
 <h4 id="拓扑排序：依赖关系-先后顺序、有向图、检测循环、BFS-DFS"><a href="#拓扑排序：依赖关系-先后顺序、有向图、检测循环、BFS-DFS" class="headerlink" title="拓扑排序：依赖关系&#x2F;先后顺序、有向图、检测循环、BFS(&#x2F;DFS)"></a>拓扑排序：依赖关系&#x2F;先后顺序、有向图、检测循环、BFS(&#x2F;DFS)</h4><p>例，lc207描述：</p>
-<p><img src="D:\Hexo\hexo-blog\source_posts\每日算法之拓扑排序\lc207课程表.png"></p>
+<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/c207%E8%AF%BE%E7%A8%8B%E8%A1%A8.png"></p>
 <h5 id="方法-步骤："><a href="#方法-步骤：" class="headerlink" title="方法&amp;步骤："></a>方法&amp;步骤：</h5><ol>
 <li>构建“有向图”：实际用<code>HashMap</code>记录每个先序节点的直接后序节点列表<code>list</code></li>
 </ol>
@@ -110,7 +110,7 @@
 <p><strong>while loop until queue.isEmpty( ) :</strong></p>
 <ul>
 <li>记录当前队列<code>size</code></li>
-<li>从队列头移除节点，拿出节点的后序列表，给每一个后序节点入度indegree[latter]减一</li>
+<li>从队列头移除节点，拿出节点的后序列表（注意判空，就算是空也别忘移除hashmap的key），给每一个后序节点入度indegree[latter]减一</li>
 <li>及时判断每次减一后该后序节点是否为0入度，是：加入队列 – 类似二叉树层序遍历，动态添加</li>
 <li>最后在hashmap中也删除该0入度节点</li>
 </ul>
