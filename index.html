@@ -73,6 +73,209 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-dp合集1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/07/dp%E5%90%88%E9%9B%861/" class="article-date">
+  <time class="dt-published" datetime="2025-04-07T03:30:26.000Z" itemprop="datePublished">2025-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/07/dp%E5%90%88%E9%9B%861/">dp合集1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="dp组合问题，不允许重复"><a href="#dp组合问题，不允许重复" class="headerlink" title="dp组合问题，不允许重复"></a>dp组合问题，不允许重复</h5><h6 id="LC322-零钱问题1-：满足target的最小硬币个数"><a href="#LC322-零钱问题1-：满足target的最小硬币个数" class="headerlink" title="LC322 零钱问题1 ：满足target的最小硬币个数"></a>LC322 零钱问题1 ：满足target的最小硬币个数</h6><p><code>dp[i] = Math.min(dp[i], dp[i-coins[j]])</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。</span><br><span class="line"></span><br><span class="line">计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。</span><br><span class="line"></span><br><span class="line">你可以认为每种硬币的数量是无限的。</span><br></pre></td></tr></table></figure>
+
+<p>dp数组用来表示dp[i] 总金额为i时最少的硬币个数</p>
+<p>初始化：所有<code>dp[i] = amount + 1 == &gt; Arrays.fill(dp, amount + 1);</code></p>
+<p>dp数组大小为什么是amount + 1？ –&gt; dp[0] 表示为总金额为0时最少硬币个数0</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">coinChange</span><span class="params">(<span class="type">int</span>[] coins, <span class="type">int</span> amount)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">clen</span> <span class="operator">=</span> coins.length;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[amount + <span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dp, amount + <span class="number">1</span>); <span class="comment">// 初始化为amount + 1，该种类数不可能，说明不存在</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=clen; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;=amount; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 不使用当前硬币dp[j],使用当前硬币dp[j-coins[i]]的较小硬币数</span></span><br><span class="line">                dp[j] = Math.min(dp[j], dp[j-coins[i]]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (dp[amount]==amount+<span class="number">1</span>)? -<span class="number">1</span> : dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="LC518-零钱问题2：-满足target的硬币组合种类数"><a href="#LC518-零钱问题2：-满足target的硬币组合种类数" class="headerlink" title="LC518 零钱问题2： 满足target的硬币组合种类数"></a>LC518 零钱问题2： 满足target的硬币组合种类数</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">change</span><span class="params">(<span class="type">int</span> amount, <span class="type">int</span>[] coins)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[amount + <span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 满足和为0的唯一组合：空组合</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">clen</span> <span class="operator">=</span> coins.length;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; clen; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;= amount ;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(j &gt;= coins[i])</span><br><span class="line">                &#123;</span><br><span class="line">                    dp[j] += dp[j - coins[i]]; <span class="comment">// 添加种类数</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h5 id="dp排列问题，可以先遍历背包容量"><a href="#dp排列问题，可以先遍历背包容量" class="headerlink" title="dp排列问题，可以先遍历背包容量"></a>dp排列问题，可以先遍历背包容量</h5><hr>
+<h5 id="网格dp"><a href="#网格dp" class="headerlink" title="网格dp"></a>网格dp</h5><h6 id="LC64-最小路径和"><a href="#LC64-最小路径和" class="headerlink" title="LC64.最小路径和"></a>LC64.<strong>最小</strong>路径和</h6><p>核心：</p>
+<ol>
+<li><code>dp[0][j] = dp[0][j-1] + grid[0][j];</code> &#x2F;&#x2F; 头行赋值</li>
+<li><code>dp[i][0] = dp[i-1][0] + grid[i][0]</code> &#x2F;&#x2F; 头列赋值</li>
+<li><code>dp[0][0] = grid[0][0]</code> </li>
+<li><code>dp[i][j] = Math.min(dp[i-1][j], dp[i][j-1]) + grid[i][j]</code></li>
+</ol>
+<p><code>return dp[rows-1][cols-1]</code></p>
+<h6 id="LC62-不同路径"><a href="#LC62-不同路径" class="headerlink" title="LC62.不同路径"></a>LC62.<strong>不同</strong>路径</h6><p>核心：</p>
+<ol>
+<li><code>dp[0][0] = 1</code> 原点到原点一条路</li>
+<li><code>dp[i][0] = dp[i-1][0]</code></li>
+<li><code>dp[0][j] = dp[0][j-1]</code></li>
+<li><code>dp[i][j] = dp[i-1][j] + dp[i][j-1]</code></li>
+</ol>
+<p><code>return dp[row-1][col-1]</code></p>
+<h6 id="LC63-不同路径Ⅱ"><a href="#LC63-不同路径Ⅱ" class="headerlink" title="LC63.不同路径Ⅱ"></a>LC63.不同路径Ⅱ</h6><p>有障碍 <code>grid[i][j] == 1</code>时路不通</p>
+<p>核心：</p>
+<ol>
+<li><code>if(grid[0][0]==1) dp[0][0] = 0; else dp[0][0] = 1</code> &#x2F;&#x2F; 有障碍原点无路，无障碍原点路径数1</li>
+<li><code>if(grid[i][0]==1) dp[i][0] = 0; else dp[i][0] = dp[i-1][0]</code></li>
+<li><code>if(grid[0][j]==1) dp[0][j] = 0; else dp[0][j] = dp[0][j-1]</code></li>
+<li><code>if(grid[i][j]==1) dp[i][j] = 0; else dp[i][j] = dp[i-1][j] + dp[i][j-1]</code></li>
+</ol>
+<p><code>return dp[row-1][col-1]</code></p>
+<h6 id="LC120-三角形最小路径和"><a href="#LC120-三角形最小路径和" class="headerlink" title="LC120.三角形最小路径和"></a>LC120.三角形最小路径和</h6><p><strong>ver1.0自我尝试版：</strong></p>
+<p>核心：</p>
+<p><em>入参：</em><code>List&lt;List&lt;Integer&gt;&gt; triangle</code></p>
+<ol>
+<li><p>三角形行数<code>row = triangle.size()</code>；</p>
+<p>三角形最大列数&#x3D;&#x3D;最后一行的列数 <code>col = triangle.get(triangle.size()-1).size()</code></p>
+<p>所以 <code>int[ ][ ] dp = new int[row][col]</code></p>
+</li>
+<li><p>初始化：<code>dp[0][0] = triangle.get(0).get(0);</code></p>
+</li>
+<li><p>两种边界：每行的最左和最右</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; row = triangle.get(i); <span class="comment">// i == 行</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;row.size(); j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(j==<span class="number">0</span>) dp[i][j] = dp[i-<span class="number">1</span>][j] + row.get(j); <span class="comment">// 最左</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(j == row.size()-<span class="number">1</span>) dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>] + row.get(j); <span class="comment">// 最右</span></span><br><span class="line">    <span class="keyword">else</span> dp[i][j] = Math.min(dp[i-<span class="number">1</span>][j], dp[i-<span class="number">1</span>][j-<span class="number">1</span>]) + row.get(j); <span class="comment">// 中间</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 搜寻最后一行所有路径总和，找出最小值</span></span><br><span class="line"><span class="type">int</span> <span class="variable">minsum</span> <span class="operator">=</span> Integer.MAX_VALUE;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k &lt; col; k++)</span><br><span class="line">&#123;</span><br><span class="line">    minsum = Math.min(dp[row-<span class="number">1</span>][k]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> minsum;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考题解：自下而上解法</p>
+<p>核心：</p>
+<p>入参： <code>List&lt;List&lt;Integer&gt;&gt; triangle --&gt; int n = triangle.size()</code> </p>
+<ol>
+<li><code>int[][] dp = new int[n][n]  // row = col = n</code></li>
+<li><code>dp[n-1][j] = lastRow.get(j)</code> &#x2F;&#x2F; 最后一行</li>
+<li><code>dp[i][j] = Math.min(dp[i+1][j], dp[i+1][j+1])</code></li>
+</ol>
+<p><code>return dp[0][0]</code></p>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://leetcode.cn/discuss/post/3581838/fen-xiang-gun-ti-dan-dong-tai-gui-hua-ru-007o/">分享丨【题单】动态规划（入门&#x2F;背包&#x2F;状态机&#x2F;划分&#x2F;区间&#x2F;状压&#x2F;数位&#x2F;树形&#x2F;数据结构优化）- 讨论 - 力扣（LeetCode）</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/07/dp%E5%90%88%E9%9B%861/" data-id="cm96y4zat0000p8n8ew72dlgg" data-title="dp合集1" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Lc322零钱兑换" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/07/Lc322%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/" class="article-date">
+  <time class="dt-published" datetime="2025-04-07T02:52:19.000Z" itemprop="datePublished">2025-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/07/Lc322%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/">Lc322零钱兑换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>LC322</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。</span><br><span class="line"></span><br><span class="line">计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。</span><br><span class="line"></span><br><span class="line">你可以认为每种硬币的数量是无限的。</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="回溯弊端：重复计算超时"><a href="#回溯弊端：重复计算超时" class="headerlink" title="回溯弊端：重复计算超时"></a>回溯弊端：重复计算超时</h5><p>[1, 2, 5], amt &#x3D; 11</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 -&gt; 1 -&gt; ... -&gt; 1, amount == 11, cnt = 11</span><br><span class="line">1 -&gt; 1 -&gt; ... -&gt; 2, amount == 11</span><br><span class="line">1 ... -&gt; 2 ... -&gt;2, amount == 11</span><br><span class="line">... </span><br><span class="line">1 -&gt; 5 -&gt; 5, amount == 11, cnt = 3</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="动态规划-可以先遍历背包或物品"><a href="#动态规划-可以先遍历背包或物品" class="headerlink" title="动态规划 可以先遍历背包或物品"></a>动态规划 可以先遍历背包或物品</h5><p>背包：amount</p>
+<p>物品：零钱</p>
+<p><code>dp[0] = 0;</code> amount&#x3D;&#x3D;0的零钱组合种类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Arrays.fill(dp, amount+<span class="number">1</span>); <span class="comment">// 比最多还多一个，初始化, 也代表没有硬币组合方案</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=amount; i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> <span class="number">0</span>; c &lt; coins.length; c++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(i &gt;= coins[c])</span><br><span class="line">		&#123;</span><br><span class="line">            <span class="comment">// 含义： 选硬币少的：【不取当前硬币】or【取当前硬币，硬币个数+1】</span></span><br><span class="line">			dp[i] = Math.min(dp[i], dp[i-conis[c]] + <span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> (dp[amount] == amout + <span class="number">1</span>) ? -<span class="number">1</span> : dp[amount];</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/07/Lc322%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/" data-id="cm96y4zau0001p8n8cnducqkl" data-title="Lc322零钱兑换" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" rel="tag">动态规划，0&#x2F;1背包</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-每日LC494目标和" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC494%E7%9B%AE%E6%A0%87%E5%92%8C/" class="article-date">
+  <time class="dt-published" datetime="2025-04-02T07:38:11.000Z" itemprop="datePublished">2025-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/02/%E6%AF%8F%E6%97%A5LC494%E7%9B%AE%E6%A0%87%E5%92%8C/">每日LC494目标和</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/02/%E6%AF%8F%E6%97%A5LC494%E7%9B%AE%E6%A0%87%E5%92%8C/" data-id="cm96y4zaw0003p8n8fehj9kg1" data-title="每日LC494目标和" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-每日LC前缀和" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC%E5%89%8D%E7%BC%80%E5%92%8C/" class="article-date">
@@ -473,113 +676,12 @@
 
 
   
-    <article id="post-每日数据结构与算法之前缀树Trie-Tree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/03/31/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91Trie-Tree/" class="article-date">
-  <time class="dt-published" datetime="2025-03-31T15:19:35.000Z" itemprop="datePublished">2025-03-31</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/03/31/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91Trie-Tree/">每日数据结构与算法之前缀树Trie-Tree</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="前缀树-Trie-Tree"><a href="#前缀树-Trie-Tree" class="headerlink" title="前缀树 Trie Tree"></a>前缀树 Trie Tree</h2><h4 id="1-前缀树"><a href="#1-前缀树" class="headerlink" title="1. 前缀树"></a>1. 前缀树</h4><p>前缀树是一种<code>N叉树</code>，每一个节点代表一个<code>字符串</code>或<code>前缀</code></p>
-<p><img src="/2025/03/31/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91Trie-Tree/trietree1.png"></p>
-<p>注意：根节点为空字符串</p>
-<h4 id="2-子节点如何表示"><a href="#2-子节点如何表示" class="headerlink" title="2. 子节点如何表示"></a>2. 子节点如何表示</h4><h5 id="1-数组-SubNode-26-nodes-targetChar-a-为下标"><a href="#1-数组-SubNode-26-nodes-targetChar-a-为下标" class="headerlink" title="1. 数组 SubNode[26] nodes: targetChar - &#39;a&#39;为下标"></a>1. 数组 SubNode[26] nodes: <code>targetChar - &#39;a&#39;</code>为下标</h5><p>查询时看当前节点的子节点数组是否有相应字符 <code>SubNode[thisChar - &#39;a&#39;]</code>是否为空</p>
-<p>插入时先查询，如果有则进入该节点；若无则插入</p>
-<h5 id="2-HashMap：-key-字符，-value-SubNode"><a href="#2-HashMap：-key-字符，-value-SubNode" class="headerlink" title="2. HashMap： key &#x3D; 字符， value &#x3D; SubNode"></a>2. HashMap： key &#x3D; 字符， value &#x3D; SubNode</h5><p>在只考虑26个字母的情况下，没有比数组查询慢很多，但不用预先创建长度为26TreeNode的数组</p>
-<h4 id="3-Insertion"><a href="#3-Insertion" class="headerlink" title="3. Insertion"></a>3. Insertion</h4><h5 id="1-创建空字符串为初始根Node"><a href="#1-创建空字符串为初始根Node" class="headerlink" title="1. 创建空字符串为初始根Node"></a>1. 创建空字符串为初始根Node</h5><h5 id="2-判断"><a href="#2-判断" class="headerlink" title="2. 判断"></a>2. 判断</h5><p>​	如果存在当前遍历到字符的子节点 –&gt; 当前节点 &#x3D; 子节点；</p>
-<p>​	反之新建节点，并存入子节点，最后当前节点也要变为子节点</p>
-<h5 id="3-boolean标记：-如果某个词不是前缀树leaf但已经结束，则需要标记该节点为isWord"><a href="#3-boolean标记：-如果某个词不是前缀树leaf但已经结束，则需要标记该节点为isWord" class="headerlink" title="3. boolean标记： 如果某个词不是前缀树leaf但已经结束，则需要标记该节点为isWord"></a>3. boolean标记： 如果某个词不是前缀树leaf但已经结束，则需要标记该节点为<code>isWord</code></h5><h4 id="4-Search"><a href="#4-Search" class="headerlink" title="4. Search"></a>4. Search</h4><p>遍历字符串<code>target</code>, 同时初始化<code>Trie Tree</code>移动指针为根节点（空字符串）：</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 伪代码</span><br><span class="line">Node tmp = root根节点</span><br><span class="line">for 字符 in target</span><br><span class="line">	if(tmp.subNode有该字符节点)</span><br><span class="line">		tmp = tmp.subNode该子节点</span><br><span class="line">	else</span><br><span class="line">		return false</span><br><span class="line"></span><br><span class="line">return tmp.isWord // 判断该位置是否是一个word</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="5-StartWith"><a href="#5-StartWith" class="headerlink" title="5. StartWith"></a>5. StartWith</h4><p>遍历<code>prefix</code>, 从<code>root</code>开始，前缀被遍历完即返回<code>true</code></p>
-<p>注意：遍历过程中树节点为空，返回<code>false</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// boolean startWith(String prefix)</span></span><br><span class="line"><span class="type">TrieNode</span> <span class="variable">tmp</span> <span class="operator">=</span> root;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;prefix.length(); i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(tmp == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">char</span> <span class="variable">cc</span> <span class="operator">=</span> prefix.charAt(i);</span><br><span class="line">    <span class="keyword">if</span>(!tmp.subNodes.containsKey(cc)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    tmp = tmp.subNodes.get(cc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>相关： Leetcode 208</p>
-<blockquote>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/vincent1997/p/11237389.html">数据结构丨前缀树 - vincent1997 - 博客园</a></p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/31/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91Trie-Tree/" data-id="cm8y5o6mo000444n84a9pgzxg" data-title="每日数据结构与算法之前缀树Trie-Tree" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-测试文章" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/03/31/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" class="article-date">
-  <time class="dt-published" datetime="2025-03-31T13:02:30.000Z" itemprop="datePublished">2025-03-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/03/31/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/">测试文章</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>这是一篇测试文章</p>
-<p>这是合江楼</p>
-<p> <img src="/2025/03/31/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/hejianglou.jpg"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/31/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" data-id="cm8y5o6mp000644n85cxug33s" data-title="测试文章" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -592,7 +694,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">前缀和,哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" rel="tag">动态规划, 面积, 迭代</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">前缀和,哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" rel="tag">动态规划, 面积, 迭代</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" rel="tag">动态规划，0&#x2F;1背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
     </div>
   </div>
 
@@ -602,7 +704,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/jddd/" style="font-size: 10px;">jddd</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 10px;">前缀和,哈希表</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" style="font-size: 10px;">前缀树,Trie-Tree</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" style="font-size: 10px;">动态规划, 面积, 迭代</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" style="font-size: 10px;">拓扑排序,BFS, 有向图, 出入度</a> <a href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" style="font-size: 10px;">摩尔计数法, 众数</a> <a href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" style="font-size: 10px;">环形链表，快慢指针，追及问题</a>
+      <a href="/tags/jddd/" style="font-size: 10px;">jddd</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 10px;">前缀和,哈希表</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" style="font-size: 10px;">前缀树,Trie-Tree</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" style="font-size: 10px;">动态规划, 面积, 迭代</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" style="font-size: 10px;">动态规划，0/1背包</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" style="font-size: 10px;">拓扑排序,BFS, 有向图, 出入度</a> <a href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" style="font-size: 10px;">摩尔计数法, 众数</a> <a href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" style="font-size: 10px;">环形链表，快慢指针，追及问题</a>
     </div>
   </div>
 
@@ -624,23 +726,23 @@
       <ul>
         
           <li>
+            <a href="/2025/04/07/dp%E5%90%88%E9%9B%861/">dp合集1</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/07/Lc322%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/">Lc322零钱兑换</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC494%E7%9B%AE%E6%A0%87%E5%92%8C/">每日LC494目标和</a>
+          </li>
+        
+          <li>
             <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC%E5%89%8D%E7%BC%80%E5%92%8C/">每日LC前缀和</a>
           </li>
         
           <li>
             <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC%E6%B1%82%E5%92%8C%EF%BC%88%E4%B9%98%E7%A7%AF%EF%BC%89%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84/">每日LC求和（乘积）最大子数组</a>
-          </li>
-        
-          <li>
-            <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC238%E9%99%A4%E8%87%AA%E8%BA%AB%E4%BB%A5%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/">每日LC238除自身以外数组的乘积</a>
-          </li>
-        
-          <li>
-            <a href="/2025/04/01/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/">每日算法之拓扑排序</a>
-          </li>
-        
-          <li>
-            <a href="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95%E6%B1%82%E4%BC%97%E6%95%B0/">每日LC之摩尔计数法求众数</a>
           </li>
         
       </ul>
