@@ -73,6 +73,76 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-每日LC之环形链表入口" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E5%85%A5%E5%8F%A3/" class="article-date">
+  <time class="dt-published" datetime="2025-04-01T03:12:12.000Z" itemprop="datePublished">2025-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E5%85%A5%E5%8F%A3/">每日LC之环形链表入口</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Leetcode 142 环形链表Ⅱ – 判断链表是否有环，入口在哪</p>
+</blockquote>
+<h4 id="一、基础：判断有环"><a href="#一、基础：判断有环" class="headerlink" title="一、基础：判断有环"></a>一、基础：判断有环</h4><p>快慢指针，快指针一次走两步，慢指针一次一步。如果某次他们指向同一个节点，说明相遇，说明有环</p>
+<p>注意：限制条件：<code>while(fast!=null &amp;&amp; slow!=null &amp;&amp; fast.next!=null)</code></p>
+<p>开始节点：我采用了<code>dummy</code>节点，<code>fast</code>和<code>slow</code>都从此开始</p>
+<blockquote>
+<p>Leetcode 141 环状链表</p>
+</blockquote>
+<h4 id="二、进阶：判断入口"><a href="#二、进阶：判断入口" class="headerlink" title="二、进阶：判断入口"></a>二、进阶：判断入口</h4><p>推公式：</p>
+<ul>
+<li><p>假设：到换入口前无环的距离为<code>z</code></p>
+</li>
+<li><p>同时开始，慢指针走完<code>z</code>，快指针走过了<code>2z</code>， 用环内距离表示就是<code>2z = z + k*(x+y) + x</code>, <code>k</code>为环内走的圈数，<code>x</code>为最新一圈走过的环内距离, <code>x+y = 环的周长</code></p>
+</li>
+<li><p>等式： <code>2z</code> &#x3D;<code> z + k*(x+y) + x</code>， –&gt; <code>z = k*(x+y) + x</code></p>
+</li>
+<li><p>环内追及： <code> t*2 = t*1 + y</code> –&gt; <code>y = t</code> 慢指针领先<code>y</code>，因为慢指针入环时快指针该圈走了<code>x</code>; 快慢追及上时慢指针走了<code>t*1 = y*1 = y</code>, 距离下一圈<code>x</code></p>
+</li>
+<li><p>此时一个新指针从<code>dummy</code>出发,速度为1，走到环口<code>t = z = k*(x+y) + x</code>; </p>
+<p>慢指针这段时间内可以走：<code> k * (x+y) + x</code>, 同时它本身就可以走 <code>k2 * (x+y) + x</code>，所以<code>k == k2</code></p>
+<p>so, 他们在环口相遇</p>
+</li>
+<li><p>结论：快慢指针相遇时，一个新指针从dummy出发，新指针和慢指针相遇的节点即为环入口</p>
+</li>
+</ul>
+<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E5%85%A5%E5%8F%A3/cycleList2.png"></p>
+<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E5%85%A5%E5%8F%A3/cycleList2-1.png"></p>
+<h4 id="三、部分代码"><a href="#三、部分代码" class="headerlink" title="三、部分代码"></a>三、部分代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>)</span><br><span class="line">dummy.next = head;</span><br><span class="line"><span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> dummy;</span><br><span class="line"><span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> dummy;</span><br><span class="line"><span class="type">ListNode</span> <span class="variable">newNode</span> <span class="operator">=</span> dummy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(fast!=<span class="literal">null</span> &amp;&amp; slow!=<span class="literal">null</span> &amp;&amp; fast.next!=<span class="literal">null</span>) <span class="comment">// 未必有环</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(fast == slow &amp;&amp; fast != dummy) <span class="keyword">break</span>; <span class="comment">// 在不为dummy的地方追及</span></span><br><span class="line">    fast = fast.next.next;</span><br><span class="line">    slow = slow.next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(newNode!=<span class="literal">null</span> &amp;&amp; slow!=<span class="literal">null</span>) <span class="comment">// 未必有环</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(newNode.next == slow.next) <span class="keyword">return</span> slow.next; <span class="comment">// 入口</span></span><br><span class="line">    newNode = newNode.next;</span><br><span class="line">    slow = slow.next;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">null</span>; <span class="comment">//无环</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E5%85%A5%E5%8F%A3/" data-id="cm8y5o6mo000344n89pwu0kyv" data-title="每日LC之环形链表入口" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-每日数据结构与算法之前缀树Trie-Tree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/03/31/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91Trie-Tree/" class="article-date">
@@ -197,7 +267,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">前缀和,哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" rel="tag">动态规划, 面积, 迭代</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" rel="tag">动态规划，0&#x2F;1背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">前缀和,哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" rel="tag">动态规划, 股票买卖时机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" rel="tag">动态规划, 面积, 迭代</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" rel="tag">动态规划，0&#x2F;1背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
     </div>
   </div>
 
@@ -207,7 +277,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/jddd/" style="font-size: 10px;">jddd</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 10px;">前缀和,哈希表</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" style="font-size: 10px;">前缀树,Trie-Tree</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" style="font-size: 10px;">动态规划, 面积, 迭代</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" style="font-size: 10px;">动态规划，0/1背包</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" style="font-size: 10px;">拓扑排序,BFS, 有向图, 出入度</a> <a href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" style="font-size: 10px;">摩尔计数法, 众数</a> <a href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" style="font-size: 10px;">环形链表，快慢指针，追及问题</a>
+      <a href="/tags/jddd/" style="font-size: 10px;">jddd</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 10px;">前缀和,哈希表</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" style="font-size: 10px;">前缀树,Trie-Tree</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" style="font-size: 10px;">动态规划, 股票买卖时机</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" style="font-size: 10px;">动态规划, 面积, 迭代</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" style="font-size: 10px;">动态规划，0/1背包</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" style="font-size: 10px;">拓扑排序,BFS, 有向图, 出入度</a> <a href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" style="font-size: 10px;">摩尔计数法, 众数</a> <a href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" style="font-size: 10px;">环形链表，快慢指针，追及问题</a>
     </div>
   </div>
 
@@ -229,6 +299,10 @@
       <ul>
         
           <li>
+            <a href="/2025/04/08/dp%E5%90%88%E9%9B%862/">dp合集2</a>
+          </li>
+        
+          <li>
             <a href="/2025/04/07/dp%E5%90%88%E9%9B%861/">dp合集1</a>
           </li>
         
@@ -242,10 +316,6 @@
         
           <li>
             <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC%E5%89%8D%E7%BC%80%E5%92%8C/">每日LC前缀和</a>
-          </li>
-        
-          <li>
-            <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC%E6%B1%82%E5%92%8C%EF%BC%88%E4%B9%98%E7%A7%AF%EF%BC%89%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84/">每日LC求和（乘积）最大子数组</a>
           </li>
         
       </ul>

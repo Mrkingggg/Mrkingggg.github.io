@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>dp合集2 | Mrking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="股票买卖时机系列问题：只有两道简单版本可以贪心，还是要用dp解 LC122 买卖股票最佳时机Ⅱ“ 给你一个整数数组 prices ，其中 prices[i] 表示某支股票第 i 天的价格。 在每一天，你可以决定是否购买和&#x2F;或出售股票。你在任何时候 最多 只能持有 一股 股票。你也可以先购买，然后在 同一天 出售。 返回 你能获得的 最大 利润 。” 通解： 递归状态机  dfs[i][0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dp合集2">
+<meta property="og:url" content="http://example.com/2025/04/08/dp%E5%90%88%E9%9B%862/index.html">
+<meta property="og:site_name" content="Mrking">
+<meta property="og:description" content="股票买卖时机系列问题：只有两道简单版本可以贪心，还是要用dp解 LC122 买卖股票最佳时机Ⅱ“ 给你一个整数数组 prices ，其中 prices[i] 表示某支股票第 i 天的价格。 在每一天，你可以决定是否购买和&#x2F;或出售股票。你在任何时候 最多 只能持有 一股 股票。你也可以先购买，然后在 同一天 出售。 返回 你能获得的 最大 利润 。” 通解： 递归状态机  dfs[i][0">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/.png">
+<meta property="article:published_time" content="2025-04-08T02:36:45.000Z">
+<meta property="article:modified_time" content="2025-04-08T06:34:42.639Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="动态规划, 股票买卖时机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Mrking" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Mrking</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-dp合集2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/08/dp%E5%90%88%E9%9B%862/" class="article-date">
+  <time class="dt-published" datetime="2025-04-08T02:36:45.000Z" itemprop="datePublished">2025-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      dp合集2
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="股票买卖时机系列问题："><a href="#股票买卖时机系列问题：" class="headerlink" title="股票买卖时机系列问题："></a>股票买卖时机系列问题：</h4><p>只有两道简单版本可以贪心，还是要用<code>dp</code>解</p>
+<h5 id="LC122-买卖股票最佳时机Ⅱ"><a href="#LC122-买卖股票最佳时机Ⅱ" class="headerlink" title="LC122 买卖股票最佳时机Ⅱ"></a>LC122 买卖股票最佳时机Ⅱ</h5><p>“ 给你一个整数数组 <code>prices</code> ，其中 <code>prices[i]</code> 表示某支股票第 <code>i</code> 天的价格。</p>
+<p>在每一天，你可以决定是否购买和&#x2F;或出售股票。你在任何时候 <strong>最多</strong> 只能持有 <strong>一股</strong> 股票。你也可以先购买，然后在 <strong>同一天</strong> 出售。</p>
+<p>返回 <em>你能获得的 <strong>最大</strong> 利润</em> 。”</p>
+<p>通解： <strong>递归状态机</strong></p>
+<ul>
+<li><p><code>dfs[i][0]</code> 代表第<code>i</code>天未持有股票的利润</p>
+</li>
+<li><p><code>dfs[i][1]</code>代表第<code>i</code>天持有股票的利润</p>
+</li>
+<li><p>前一天持股，后一天卖掉变为[0]; 前一天非持股，后一天买入变为[1]；其他情况保持原状态</p>
+</li>
+<li><p>每一天最大利润为前一天买&#x2F;卖&#x2F;不变的最大值</p>
+<p> <code>dfs[i][0] = Math.max(dfs[i-1][1] + prices[i], dfs[i-1][0])</code></p>
+</li>
+</ul>
+<p>​	<code>dfs[i][1] = Math.max(dfs[i-1][0] - prices[i], dfs[i-1][1])</code></p>
+<ul>
+<li><p>边界条件：</p>
+<p><code>dfs[-1][0] = 0</code>, <code>dfs[-1][1] = -∞</code></p>
+</li>
+<li><p>递归入口：<code>dfs[n-1][0]</code>, 因为<code>dfs[n-1][1]</code>卖不出去注定小于前者</p>
+<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span>[] prices)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> dfs(prices, prices.length - <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span>[] prices, <span class="type">int</span> i, <span class="type">boolean</span> hold)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(i == -<span class="number">1</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(hold) <span class="keyword">return</span> Integer.MIN_VALUE;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(hold)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> Math.max(dfs(prices, i-<span class="number">1</span>, <span class="literal">true</span>), dfs(prices, i-<span class="number">1</span>, <span class="literal">false</span>) - prices[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> Math.max(dfs(prices, i-<span class="number">1</span>, <span class="literal">false</span>), dfs(prices, i-<span class="number">1</span>, <span class="literal">true</span>) + prices[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>递归结果： 超时</p>
+<p>所以<strong>优化为dp</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span>[] prices)</span> &#123;</span><br><span class="line">    	<span class="type">int</span> <span class="variable">nlen</span> <span class="operator">=</span> prices.length;</span><br><span class="line">        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[nlen + <span class="number">1</span>][<span class="number">2</span>];</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = Integer.MIN_VALUE;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;nlen; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[i+<span class="number">1</span>][<span class="number">0</span>] = Math.max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>] + prices[i]);</span><br><span class="line">            dp[i+<span class="number">1</span>][<span class="number">1</span>] = Math.max(dp[i][<span class="number">1</span>], dp[i][<span class="number">0</span>] - prices[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[nlen][<span class="number">0</span>]; <span class="comment">// dp[nlen][1]买入，绝不会大于dp[nlen][0]的利润</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="LC714-买卖股票最佳时机含手续费"><a href="#LC714-买卖股票最佳时机含手续费" class="headerlink" title="LC714 买卖股票最佳时机含手续费"></a>LC714 买卖股票最佳时机含手续费</h5><p>特殊之处：每次交易（买卖两个算一次）交一次手续费，在买的时候扣利润就行</p>
+<p><code> dp[i + 1][1] = Math.max(dp[i][1], dp[i][0] - prices[i] - fee);</code></p>
+<p>完整版：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span>[] prices, <span class="type">int</span> fee)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">plen</span> <span class="operator">=</span> prices.length;</span><br><span class="line">        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[plen + <span class="number">1</span>][<span class="number">2</span>];</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = Integer.MIN_VALUE / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; plen; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[i + <span class="number">1</span>][<span class="number">0</span>] = Math.max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>] + prices[i]);</span><br><span class="line">            dp[i + <span class="number">1</span>][<span class="number">1</span>] = Math.max(dp[i][<span class="number">1</span>], dp[i][<span class="number">0</span>] - prices[i] - fee);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Math.max(dp[plen][<span class="number">0</span>], dp[plen][<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<hr>
+<h5 id="LC309-买卖股票最佳时机含冷冻期"><a href="#LC309-买卖股票最佳时机含冷冻期" class="headerlink" title="LC309  买卖股票最佳时机含冷冻期"></a>LC309  买卖股票最佳时机含冷冻期</h5><p>特殊之处：<strong>卖出</strong>股票后，你<strong>无法在第二天买入</strong>股票 (即冷冻期为 1 天)。</p>
+<p>方法： 修改买入<code>dp[i][1]</code>的状态转移方程，处理边界</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span>[] prices)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">plen</span> <span class="operator">=</span> prices.length;</span><br><span class="line">        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[plen][<span class="number">2</span>];</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = Integer.MIN_VALUE;</span><br><span class="line">        dp[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">0</span>; <span class="comment">// 第一天不买卖利润为0</span></span><br><span class="line">        dp[<span class="number">1</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>]; <span class="comment">// 第一天买入利润为负（成本）</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;plen; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[i+<span class="number">1</span>][<span class="number">0</span>] = Math.max(dp[i][<span class="number">0</span>], dp[i][<span class="number">1</span>] + prices[i]); <span class="comment">// 卖出</span></span><br><span class="line">            dp[i+<span class="number">1</span>][<span class="number">1</span>] = Math.max(dp[i][<span class="number">1</span>], dp[i-<span class="number">1</span>][<span class="number">0</span>] - prices[i]); <span class="comment">// 隔天买入</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(dp[plen][<span class="number">0</span>], dp[plen][<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h5 id="LC188-买卖股票最佳时机Ⅳ-最多可以完成-k-笔交易）"><a href="#LC188-买卖股票最佳时机Ⅳ-最多可以完成-k-笔交易）" class="headerlink" title="LC188 买卖股票最佳时机Ⅳ (最多可以完成 k 笔交易）"></a>LC188 买卖股票最佳时机Ⅳ (最多可以完成 <code>k</code> 笔交易）</h5><p>特殊之处：最多可以买k次、卖k次</p>
+<p>方法：多一个参数 k 代表次数; 卖出时可用交易次数不减少，购入时可用交易次数减少（只算一遍）</p>
+<p>DP数组： <code>  int[][][] dp = new int[plen + 1][2][k + 1];</code></p>
+<p>初始化：<code>dp[0][1][r from 0 to k] = Integer.MIN_VALUE</code></p>
+<p>​	默认：<code>d[0][0][r] = 0;</code></p>
+<p>​		   <code> dp[i][j][0] = 0;</code></p>
+<p>循环边界：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;plen; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> r=<span class="number">1</span>; r&lt;=k; r++)</span><br><span class="line">    &#123;</span><br><span class="line">        dp[i + <span class="number">1</span>][<span class="number">0</span>][r] = Math.max(dp[i][<span class="number">0</span>][r], dp[i][<span class="number">1</span>][r] + prices[i]);</span><br><span class="line">        dp[i + <span class="number">1</span>][<span class="number">1</span>][r] = Math.max(dp[i][<span class="number">1</span>][r], dp[i][<span class="number">0</span>][r-<span class="number">1</span>] - prices[i]);</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ... </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>整体：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span>[] prices)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">plen</span> <span class="operator">=</span> prices.length;</span><br><span class="line">        <span class="type">int</span>[][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[plen + <span class="number">1</span>][<span class="number">2</span>][k + <span class="number">1</span>];</span><br><span class="line">        <span class="comment">// dp[0][1][0-&gt;k] = Integer.MIN_VALUE</span></span><br><span class="line">        <span class="comment">// dp[0][0][0-&gt;k] = 0</span></span><br><span class="line">        <span class="comment">// dp[][][0] = 0;</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> <span class="number">0</span>; r &lt; k; r++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[<span class="number">0</span>][<span class="number">1</span>][r] = Integer.MIN_VALUE / <span class="number">2</span>; <span class="comment">// 防止溢出</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;plen; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> <span class="number">1</span>; r &lt;= k; r++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 卖掉，可用交易次数不变</span></span><br><span class="line">                dp[i+<span class="number">1</span>][<span class="number">0</span>][r] = Math.max(dp[i][<span class="number">0</span>][r], dp[i][<span class="number">1</span>][r] + prices[i]);</span><br><span class="line">                <span class="comment">// 购入,可用交易次数减少</span></span><br><span class="line">            	dp[i+<span class="number">1</span>][<span class="number">1</span>][r] = Math.max(dp[i][<span class="number">1</span>][r], dp[i][<span class="number">0</span>][r-<span class="number">1</span>] - prices[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[plen][<span class="number">0</span>][k];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="LC123-买卖股票最佳时机-Ⅲ-（最多可以完成2笔交易）"><a href="#LC123-买卖股票最佳时机-Ⅲ-（最多可以完成2笔交易）" class="headerlink" title="LC123 买卖股票最佳时机 Ⅲ （最多可以完成2笔交易）"></a>LC123 买卖股票最佳时机 Ⅲ （最多可以完成2笔交易）</h5><p>将LC188中k设为2即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span>[] prices)</span> &#123;</span><br><span class="line">        <span class="comment">// k == 2</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">plen</span> <span class="operator">=</span> prices.length;</span><br><span class="line">        <span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">        <span class="type">int</span>[][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[plen + <span class="number">1</span>][<span class="number">2</span>][k + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> <span class="number">0</span>; r &lt;= k; r++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[<span class="number">0</span>][<span class="number">1</span>][r] = Integer.MIN_VALUE / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; plen; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= k; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                dp[i + <span class="number">1</span>][<span class="number">0</span>][j] = Math.max(dp[i][<span class="number">0</span>][j], dp[i][<span class="number">1</span>][j] + prices[i]);</span><br><span class="line">                dp[i + <span class="number">1</span>][<span class="number">1</span>][j] = Math.max(dp[i][<span class="number">1</span>][j], dp[i][<span class="number">0</span>][j-<span class="number">1</span>] - prices[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[plen][<span class="number">0</span>][k];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>TODO:</p>
+<p>将以上三维数组优化为二维数组</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/08/dp%E5%90%88%E9%9B%862/" data-id="cm984ranw00009on8auzb6tfz" data-title="dp合集2" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" rel="tag">动态规划, 股票买卖时机</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/04/07/dp%E5%90%88%E9%9B%861/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">dp合集1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">前缀和,哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" rel="tag">动态规划, 股票买卖时机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" rel="tag">动态规划, 面积, 迭代</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" rel="tag">动态规划，0&#x2F;1背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/jddd/" style="font-size: 10px;">jddd</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 10px;">前缀和,哈希表</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" style="font-size: 10px;">前缀树,Trie-Tree</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" style="font-size: 10px;">动态规划, 股票买卖时机</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" style="font-size: 10px;">动态规划, 面积, 迭代</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" style="font-size: 10px;">动态规划，0/1背包</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" style="font-size: 10px;">拓扑排序,BFS, 有向图, 出入度</a> <a href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" style="font-size: 10px;">摩尔计数法, 众数</a> <a href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" style="font-size: 10px;">环形链表，快慢指针，追及问题</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/04/08/dp%E5%90%88%E9%9B%862/">dp合集2</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/07/dp%E5%90%88%E9%9B%861/">dp合集1</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/07/Lc322%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/">Lc322零钱兑换</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC494%E7%9B%AE%E6%A0%87%E5%92%8C/">每日LC494目标和</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC%E5%89%8D%E7%BC%80%E5%92%8C/">每日LC前缀和</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
