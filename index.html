@@ -73,6 +73,267 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-OScourse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/09/OScourse/" class="article-date">
+  <time class="dt-published" datetime="2025-04-09T06:52:00.000Z" itemprop="datePublished">2025-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/09/OScourse/">OScourse</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="操作系统复习"><a href="#操作系统复习" class="headerlink" title="操作系统复习"></a>操作系统复习</h3><h4 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h4><ol>
+<li>程序如何运行？</li>
+</ol>
+<p>​	指令： 编译为0&#x2F;1机器码，CPU识别、执行的最基本命令</p>
+<ol start="2">
+<li><p>应用程序：操作系统之上；只能使用<strong>非特权指令</strong></p>
+</li>
+<li><p>内核程序：很多内核程序<strong>组成操作系统内核</strong>，OS的核心部分，最接近硬件</p>
+<p>操作系统对系统资源的管理在内核实现， 内核为操作系统的<strong>管理者</strong></p>
+<p>PS :  有些**“特权”指令**的执行影响大，可能会影响其他应用程序，因此只能由操作系统内核来使用</p>
+</li>
+<li><p>CPU可以区分是否特权指令；那么CPU如何区分该特权指令属于内核程序还是应用程序？</p>
+<p>解：<strong>CPU的两种状态</strong>：内核态 &#x2F; 用户态</p>
+<p>内核态：可执行特权指令，alias&#x3D;管态&#x2F;核心态</p>
+<p>用户态：只可执行非特权指令， alias&#x3D;目态</p>
+<p>CPU态标记方法：<strong>程序状态寄存器</strong> (psw)，比如0表示CPU处于内核态，1表示CPU处于用户态</p>
+</li>
+<li><p>CPU如何切换状态？</p>
+<p>例子：开机过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. CPU处于内核态，执行初始化过程的特权指令</span><br><span class="line">2. 内核程序在适当的时机执行特权指令，将程序状态寄存器改为用户态，并让出CPU</span><br><span class="line">3. 应用程序执行，此时为用户态</span><br><span class="line">4. 若此时应用程序包含并尝试执行特权指令，CPU识别出特权指令，判定为非法，产生一个中断；拒绝执行此指令，并且转化为内核态，psw改变，处理该中断；结束后再变为用户态</span><br></pre></td></tr></table></figure>
+
+<p>内核态 –&gt; 用户态：执行一个<strong>特权指令</strong>，将<code>psw</code>设为用户态</p>
+<p>用户态 –&gt; 内核态：由<strong>中断</strong>引发，<strong>硬件自动</strong>设置为内核态</p>
+<p><strong>中断信号</strong>：凡是需要<strong>操作系统介入</strong>就会触发中断信号（非法等等）</p>
+</li>
+</ol>
+<h4 id="中断和异常-–-强行用户态-内核态，实现并发的方式"><a href="#中断和异常-–-强行用户态-内核态，实现并发的方式" class="headerlink" title="中断和异常 – 强行用户态-&gt;内核态，实现并发的方式"></a>中断和异常 – 强行用户态-&gt;内核态，实现并发的方式</h4><ul>
+<li><p>操作系统内核程序 – 系统管理者</p>
+</li>
+<li><p>应用程序，一直运行到中断</p>
+</li>
+</ul>
+<p><strong>中断是操作系统内核从应用程序那里拿到CPU使用权的唯一途径</strong></p>
+<p>​	中断： 用户态 –&gt; 内核态</p>
+<h5 id="内中断（异常-例外）：CPU内部引发，与指令有关"><a href="#内中断（异常-例外）：CPU内部引发，与指令有关" class="headerlink" title="内中断（异常&#x2F;例外）：CPU内部引发，与指令有关"></a>内中断（异常&#x2F;例外）：CPU内部引发，与指令有关</h5><p>分类：</p>
+<ol>
+<li>trap：陷入指令，应用程序故意引发</li>
+<li>fault：故障，错误条件引起，可能被修复；修复后将CPU<strong>还给</strong>应用程序</li>
+<li>abort：终止，致命错误，无法修复。内核不会将CPU使用权还给应用程序，而是<strong>终止该应用程序</strong></li>
+</ol>
+<p>例子：</p>
+<ol>
+<li>用户态非法指令（用户态执行特权指令、指令参数有问题，如除数为0 …)</li>
+<li>用户态<strong>陷入指令</strong> – 想请求操作系统内核的服务，如系统调用</li>
+</ol>
+<h5 id="外中断（狭义-中断）：CPU外部引发，与指令无关"><a href="#外中断（狭义-中断）：CPU外部引发，与指令无关" class="headerlink" title="外中断（狭义 中断）：CPU外部引发，与指令无关"></a>外中断（狭义 中断）：CPU外部引发，与指令无关</h5><p>分类：</p>
+<ol>
+<li>时钟中断 – 时钟部件发送的中断信号；实现多程序并发</li>
+</ol>
+<p>​	CPU 收到时钟中断，暂停用户程序，切换为内核态，执行中断对应的内核程序，后将CPU交给其他应用程序；如此循环</p>
+<ol start="2">
+<li><p>I&#x2F;O中断：输入输出设备任务完成，向CPU发送中断信号</p>
+<p>CPU暂停应用程序，切为内核程序，处理IO中断</p>
+</li>
+</ol>
+<h5 id="中断信号检测"><a href="#中断信号检测" class="headerlink" title="中断信号检测"></a>中断信号检测</h5><ul>
+<li>内中断：执行指令时检查（trap &#x2F; 可修复 &#x2F; 致命错误…)</li>
+<li>外中断：每执行完一条指令例行检查是否有外中断信号待处理</li>
+</ul>
+<h5 id="中断机制（中断程序匹配）"><a href="#中断机制（中断程序匹配）" class="headerlink" title="中断机制（中断程序匹配）"></a>中断机制（中断程序匹配）</h5><p>不同中断应有不同内核程序处理：</p>
+<p><strong>中断向量表</strong> – 根据中断类型查询中断处理程序指针</p>
+<p>0 – ptr1</p>
+<p>1 – ptr2</p>
+<p>…</p>
+<h4 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h4><p>应用程序请求操作系统内核服务的途径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">系统调用必须性的例子：</span><br><span class="line">两个进程并发请求打印，必须交由内核程序统一管理共享资源，只向上提供接口；否则打印会交替混乱</span><br></pre></td></tr></table></figure>
+
+<h5 id="什么时候用？"><a href="#什么时候用？" class="headerlink" title="什么时候用？"></a>什么时候用？</h5><p>凡是与共享资源有关的操作（存储分配、文件管理、IO操作），应由操作系统内核代为完成，保证系统的安全</p>
+<h5 id="系统调用过程"><a href="#系统调用过程" class="headerlink" title="系统调用过程"></a>系统调用过程</h5><p>– 应用程序将系统调用<strong>类型</strong>、<strong>参数</strong>存入CPU<strong>寄存器</strong> </p>
+<p>–&gt; 应用程序执行<strong>陷入指令</strong>，引发<strong>内中断</strong></p>
+<p>–&gt; CPU切换至<strong>内核态</strong>，执行<strong>系统调用入口程序</strong>（中断处理程序的一种），判断用户请求的系统调用<strong>类型</strong></p>
+<p>–&gt; CPU执行<strong>对应的内核程序</strong>，使用寄存器中的参数</p>
+<p>–&gt; 执行后，CPU<strong>切换回用户态</strong>，继续执行其他指令</p>
+<h4 id="操作系统引导"><a href="#操作系统引导" class="headerlink" title="操作系统引导"></a>操作系统引导</h4><p>（开机过程）</p>
+<p>+ROM中固定位置找到ROM引导程序（自举程序），检查磁盘&#x2F;RAM</p>
+<p>+将磁盘第一块分区读入RAM： 主引导记录，执行磁盘引导程序扫描分区表（找到操作系统安装的活动分区）</p>
+<p>+读入活动分区第一块RAM：引导记录，执行程序，找到其中的启动管理器读入RAM，完成操作系统的初始化</p>
+<p>&#x3D;&#x3D; </p>
+<p>ROM自举程序 – 主引导记录执行磁盘引导程序扫描分区 – 活动分区引导记录执行程序启动管理器</p>
+<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ul>
+<li>程序：静态，指令集合</li>
+<li>进程：程序的一次执行，动态；操作系统<strong>资源分配和调度</strong>的独立单位</li>
+<li>PID：操作系统分配。唯一、不重复的，区分不同进程</li>
+</ul>
+<h5 id="进程组成部分（内存中）"><a href="#进程组成部分（内存中）" class="headerlink" title="进程组成部分（内存中）"></a>进程组成部分（内存中）</h5><h6 id="PCB"><a href="#PCB" class="headerlink" title="PCB"></a>PCB</h6><p><strong>操作系统通过PCB中的数据段管理进程</strong></p>
+<p>进程控制块：数据结构，</p>
+<p>记录进程PID、所属用户UID、</p>
+<p>分配了哪些资源（使用的内存、IO设备、文件）、</p>
+<p>进程运行情况（CPU使用时间、磁盘使用情况、网络流量）</p>
+<p>PCB是进程存在的唯一标志；随进程创建&#x2F;结束而创建&#x2F;回收</p>
+<h6 id="程序段"><a href="#程序段" class="headerlink" title="程序段"></a>程序段</h6><p>将待执行程序从硬盘读入内存的程序段中，并由CPU进行读取和执行</p>
+<h6 id="数据段"><a href="#数据段" class="headerlink" title="数据段"></a>数据段</h6><p>程序执行中产生的数据</p>
+<h5 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h5><p>创建态：初始化，分配PCB、内存、加载程序段…</p>
+<p>就绪态：等待CPU调度</p>
+<p>运行态：进程被CPU调度执行</p>
+<p>阻塞态：进程<strong>主动</strong>从运行态进入阻塞态，等待系统调用执行或其他进程资源，此时<strong>退下CPU</strong></p>
+<p>终止态：进程执行结束（系统调用exit或产生致命错误），CPU转为内核态回收PCB…</p>
+<p>PS： 不可能发生的转化：1. 就绪态 -&gt; 阻塞态 2. 阻塞态 -&gt; 运行态</p>
+<p>可以发生的特殊转化：运行态 -&gt; 就绪态</p>
+<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/%E6%80%81%E8%BD%AC%E5%8C%96.png"></p>
+<p><em>PCB中由state表示状态</em></p>
+<h5 id="进程组织方式"><a href="#进程组织方式" class="headerlink" title="进程组织方式"></a>进程组织方式</h5><p><strong>链式</strong>方式</p>
+<ul>
+<li>执行指针 –&gt; CPU执行中PCB</li>
+<li>就绪队列 –&gt; 优先级高的PCB –&gt; 优先级低的PCB</li>
+<li>不同原因的阻塞队列 –&gt; 阻塞的PCB</li>
+</ul>
+<h5 id="进程控制（状态转换的处理）"><a href="#进程控制（状态转换的处理）" class="headerlink" title="进程控制（状态转换的处理）"></a>进程控制（状态转换的处理）</h5><p>使用原语。原语：原子性操作系统程序，<strong>不可被中断</strong>。</p>
+<p>状态转换必须一气呵成。原因：至少两步：1. 改变state。2. 改换队列（就绪 &lt;–&gt;阻塞）。两者必须统一，state必须在对应的队列中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原语原理：</span><br><span class="line">		关中断指令执行后，CPU不会再每次执行完一条指令后检查中断信号；</span><br><span class="line">		开中断指令：恢复每条指令执行后的中断检查</span><br><span class="line">		关中断指令和开中断指令之间的指令不会因为中断信号而暂停执行</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="创建原语"><a href="#创建原语" class="headerlink" title="创建原语"></a>创建原语</h5><ol>
+<li>分配空白PCB</li>
+<li>分配进程资源</li>
+<li>初始化PCB</li>
+</ol>
+<h5 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h5><p>外存中还未为之创建进程并加载进内存执行的程序</p>
+<p><strong>作业调度</strong>：挑选外存中的作业，创建新进程并执行之</p>
+<h5 id="触发创建进程原语的场景："><a href="#触发创建进程原语的场景：" class="headerlink" title="触发创建进程原语的场景："></a>触发创建进程原语的场景：</h5><p>用户登录（创建用户进程）、作业调度、操作系统创建进程处理用户请求、用户进程主动创建子进程</p>
+<h5 id="撤销原语"><a href="#撤销原语" class="headerlink" title="撤销原语"></a>撤销原语</h5><ol>
+<li>找到PCB（执行指针&#x2F;就绪队列&#x2F;阻塞队列）</li>
+<li>立刻<strong>终止</strong>执行的进程，将CPU给其他进程</li>
+<li>终止所有<strong>子进程</strong></li>
+<li>归还进程资源</li>
+<li>删除PCB</li>
+</ol>
+<p>所有原语基本三件事：</p>
+<ol>
+<li>更新PCB信息（PC程序计数器–下一条指令、当前指令、通用寄存器–数据、state）</li>
+<li>PCB加入队列</li>
+<li>分配、回收资源&#x2F;PCB</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/09/OScourse/" data-id="cm99sfiqj000190n84402f3dc" data-title="OScourse" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-HOT100left-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/09/HOT100left-1/" class="article-date">
+  <time class="dt-published" datetime="2025-04-09T02:52:04.000Z" itemprop="datePublished">2025-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/09/HOT100left-1/">HOT100left_1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="HOT100剩余题目"><a href="#HOT100剩余题目" class="headerlink" title="HOT100剩余题目"></a>HOT100剩余题目</h4><h5 id="LC279-完全平方数"><a href="#LC279-完全平方数" class="headerlink" title="LC279 完全平方数"></a>LC279 完全平方数</h5><p>给你一个整数 <code>n</code> ，返回 <em>和为 <code>n</code> 的完全平方数的最少数量</em> 。</p>
+<p><strong>完全平方数</strong> 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，<code>1</code>、<code>4</code>、<code>9</code> 和 <code>16</code> 都是完全平方数，而 <code>3</code> 和 <code>11</code> 不是。</p>
+<p>解：背包问题一维简化版（？）</p>
+<p>核心：<code>if(i&gt;=j*j) dp[i] = Math.min(dp[i], dp[i-j*j] + 1);</code></p>
+<p>双重循环：遍历物品和背包</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化：dp[i] = n;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numSquares</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dp, n); <span class="comment">// 最差情况：3 = 1 + 1 + 1, dp[3] = 3</span></span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>; <span class="comment">// 完全平方数为0的种类数为0， 不存在的</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">end</span> <span class="operator">=</span> (<span class="type">int</span>) Math.sqrt(n); <span class="comment">// 物品最大为目标数开方</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= end; j++)<span class="comment">// 遍历物品</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++) <span class="comment">// 遍历容量</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 能放下当前物品--取 当前dp 和 放下当前物品后剩余容量dp + 1（当前占位） 的最小值</span></span><br><span class="line">                <span class="keyword">if</span>(i &gt;= j*j) dp[i] = Math.min(dp[i], dp[i - j*j] + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="LC74-搜索二维矩阵"><a href="#LC74-搜索二维矩阵" class="headerlink" title="LC74 搜索二维矩阵"></a>LC74 搜索二维矩阵</h5>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/09/HOT100left-1/" data-id="cm99sfiqa000090n89u42edli" data-title="HOT100left_1" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hot100-leetcode/" rel="tag">hot100, leetcode</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-concurrent1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/08/concurrent1/" class="article-date">
+  <time class="dt-published" datetime="2025-04-08T11:06:41.000Z" itemprop="datePublished">2025-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/08/concurrent1/">concurrent1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/08/concurrent1/" data-id="cm99sfiqt000390n84fq9ax7r" data-title="concurrent1" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-排序" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/04/08/%E6%8E%92%E5%BA%8F/" class="article-date">
@@ -587,179 +848,6 @@
 
 
   
-    <article id="post-每日LC238除自身以外数组的乘积" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC238%E9%99%A4%E8%87%AA%E8%BA%AB%E4%BB%A5%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/" class="article-date">
-  <time class="dt-published" datetime="2025-04-02T05:25:46.000Z" itemprop="datePublished">2025-04-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/04/02/%E6%AF%8F%E6%97%A5LC238%E9%99%A4%E8%87%AA%E8%BA%AB%E4%BB%A5%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/">每日LC238除自身以外数组的乘积</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="LC238"><a href="#LC238" class="headerlink" title="LC238"></a>LC238</h3><p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/238descript.png"></p>
-<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/238eg.png"></p>
-<h4 id="解法："><a href="#解法：" class="headerlink" title="解法："></a>解法：</h4><ul>
-<li><p>动态规划: <code>int[ ] dppre</code>数组表示每一位数“前缀”乘积，<code>int[ ] dppost</code>数组表示每一位数“后缀”乘积</p>
-</li>
-<li><p><strong>非边界</strong>条件状态转移方程：</p>
-<p><code> dppre[i] = dppre[i-1] * nums[i-1]; dppost[j] = dppost[j+1] * nums[j+1];</code></p>
-</li>
-<li><p>结果数组<code>int[ ] res</code> : 每一位结果 <code>res[i] = dppre[i] * dppost[i];</code></p>
-</li>
-<li><p>边界条件：<code>dppre[0] = 1; dppost[len - 1] = 1;</code></p>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/04/02/%E6%AF%8F%E6%97%A5LC238%E9%99%A4%E8%87%AA%E8%BA%AB%E4%BB%A5%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/" data-id="cm8zjj6bi000020n85cn5g7aq" data-title="每日LC238除自身以外数组的乘积" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-每日算法之拓扑排序" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/04/01/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/" class="article-date">
-  <time class="dt-published" datetime="2025-04-01T08:54:57.000Z" itemprop="datePublished">2025-04-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/04/01/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/">每日算法之拓扑排序</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Leetcode 207 课程表</p>
-<h4 id="拓扑排序：依赖关系-先后顺序、有向图、检测循环、BFS-DFS"><a href="#拓扑排序：依赖关系-先后顺序、有向图、检测循环、BFS-DFS" class="headerlink" title="拓扑排序：依赖关系&#x2F;先后顺序、有向图、检测循环、BFS(&#x2F;DFS)"></a>拓扑排序：依赖关系&#x2F;先后顺序、有向图、检测循环、BFS(&#x2F;DFS)</h4><p>例，lc207描述：</p>
-<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/c207%E8%AF%BE%E7%A8%8B%E8%A1%A8.png"></p>
-<h5 id="方法-步骤："><a href="#方法-步骤：" class="headerlink" title="方法&amp;步骤："></a>方法&amp;步骤：</h5><ol>
-<li>构建“有向图”：实际用<code>HashMap</code>记录每个先序节点的直接后序节点列表<code>list</code></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入：int[][] prerequsites, [后序][先序]</span></span><br><span class="line">HashMap&lt;Integer, List&lt;Integer&gt;&gt; cmap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(); <span class="comment">// 记录先序节点的后序节点列表</span></span><br><span class="line"><span class="type">int</span>[] indegree = <span class="keyword">new</span> <span class="title class_">int</span>[prerequsites.length]; <span class="comment">// 后序节点入度记录，入度为0则没有先序节点</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;prerequsites.length; i++)</span><br><span class="line">   &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">pre</span> <span class="operator">=</span> prerequsites[i][<span class="number">1</span>];</span><br><span class="line">       <span class="type">int</span> <span class="variable">latter</span> <span class="operator">=</span> prerequsites[i][<span class="number">0</span>];</span><br><span class="line">       List&lt;Integer&gt; list;</span><br><span class="line">       <span class="keyword">if</span>(cmap.containsKey(pre))</span><br><span class="line">       &#123;</span><br><span class="line">           list = cmap.get(pre);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">       &#123;</span><br><span class="line">           list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">       &#125;</span><br><span class="line">       list.add(latter);</span><br><span class="line">       cmap.put(pre, list);</span><br><span class="line">       indegree[latter]++; <span class="comment">// 后序节点入度+1 -- 多一个先序指向</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="2">
-<li><p>BFS+队列，队列中存放入度&#x3D;0的节点：</p>
-<p><strong>while loop until queue.isEmpty( ) :</strong></p>
-<ul>
-<li>记录当前队列<code>size</code></li>
-<li>从队列头移除节点，拿出节点的后序列表（注意判空，就算是空也别忘移除hashmap的key），给每一个后序节点入度indegree[latter]减一</li>
-<li>及时判断每次减一后该后序节点是否为0入度，是：加入队列 – 类似二叉树层序遍历，动态添加</li>
-<li>最后在hashmap中也删除该0入度节点</li>
-</ul>
-</li>
-</ol>
-<p>出循环（队列空）：</p>
-<p>hashmap不为空 –&gt; 存在环，循环依赖</p>
-<p>​	<img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/ooped.png"></p>
-<p>​	</p>
-<p>hashmap为空 –&gt; 无环</p>
-<p><img src="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/nlooped.png" alt="S"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/" data-id="cm8ya7u080000jsn8056e6zt0" data-title="每日算法之拓扑排序" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-每日LC之摩尔计数法求众数" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95%E6%B1%82%E4%BC%97%E6%95%B0/" class="article-date">
-  <time class="dt-published" datetime="2025-04-01T07:20:49.000Z" itemprop="datePublished">2025-04-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95%E6%B1%82%E4%BC%97%E6%95%B0/">每日LC之摩尔计数法求众数</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Leetcode 169 多数元素 – 求众数</p>
-<p>法1： 摩尔计数法：时间复杂度<code>O(n)</code>, 空间复杂度<code>O(1)</code></p>
-<p>遍历数组：</p>
-<ul>
-<li>当前数是众数，次数加一</li>
-<li>当前数不是众数，次数减一：<ul>
-<li>如果次数 &lt;&#x3D; 0， 众数变为当前数，次数重置为1</li>
-</ul>
-</li>
-</ul>
-<p>遍历结束，返回众数</p>
-<p>法2： 排序后返回arr[len&#x2F;2]即可</p>
-<p>时间复杂度<code>O(nlogn)</code>,空间复杂度<code>O(1)</code></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/04/01/%E6%AF%8F%E6%97%A5LC%E4%B9%8B%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95%E6%B1%82%E4%BC%97%E6%95%B0/" data-id="cm8y6a9iq0000s8n88kr87u4k" data-title="每日LC之摩尔计数法求众数" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -778,7 +866,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">前缀和,哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" rel="tag">动态规划, 股票买卖时机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" rel="tag">动态规划, 面积, 迭代</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" rel="tag">动态规划，0&#x2F;1背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hot100-leetcode/" rel="tag">hot100, leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jddd/" rel="tag">jddd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">前缀和,哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" rel="tag">前缀树,Trie-Tree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" rel="tag">动态规划, 股票买卖时机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" rel="tag">动态规划, 面积, 迭代</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" rel="tag">动态规划，0&#x2F;1背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" rel="tag">拓扑排序,BFS, 有向图, 出入度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" rel="tag">摩尔计数法, 众数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" rel="tag">环形链表，快慢指针，追及问题</a></li></ul>
     </div>
   </div>
 
@@ -788,7 +876,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/jddd/" style="font-size: 10px;">jddd</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 10px;">前缀和,哈希表</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" style="font-size: 10px;">前缀树,Trie-Tree</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" style="font-size: 10px;">动态规划, 股票买卖时机</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" style="font-size: 10px;">动态规划, 面积, 迭代</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" style="font-size: 10px;">动态规划，0/1背包</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" style="font-size: 10px;">拓扑排序,BFS, 有向图, 出入度</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" style="font-size: 10px;">摩尔计数法, 众数</a> <a href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" style="font-size: 10px;">环形链表，快慢指针，追及问题</a>
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/hot100-leetcode/" style="font-size: 10px;">hot100, leetcode</a> <a href="/tags/jddd/" style="font-size: 10px;">jddd</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C-%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 10px;">前缀和,哈希表</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91-Trie-Tree/" style="font-size: 10px;">前缀树,Trie-Tree</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E6%97%B6%E6%9C%BA/" style="font-size: 10px;">动态规划, 股票买卖时机</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E9%9D%A2%E7%A7%AF-%E8%BF%AD%E4%BB%A3/" style="font-size: 10px;">动态规划, 面积, 迭代</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%8C0-1%E8%83%8C%E5%8C%85/" style="font-size: 10px;">动态规划，0/1背包</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-BFS-%E6%9C%89%E5%90%91%E5%9B%BE-%E5%87%BA%E5%85%A5%E5%BA%A6/" style="font-size: 10px;">拓扑排序,BFS, 有向图, 出入度</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%91%A9%E5%B0%94%E8%AE%A1%E6%95%B0%E6%B3%95-%E4%BC%97%E6%95%B0/" style="font-size: 10px;">摩尔计数法, 众数</a> <a href="/tags/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%8C%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%8C%E8%BF%BD%E5%8F%8A%E9%97%AE%E9%A2%98/" style="font-size: 10px;">环形链表，快慢指针，追及问题</a>
     </div>
   </div>
 
@@ -810,23 +898,23 @@
       <ul>
         
           <li>
+            <a href="/2025/04/09/OScourse/">OScourse</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/09/HOT100left-1/">HOT100left_1</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/08/concurrent1/">concurrent1</a>
+          </li>
+        
+          <li>
             <a href="/2025/04/08/%E6%8E%92%E5%BA%8F/">排序</a>
           </li>
         
           <li>
             <a href="/2025/04/08/dp%E5%90%88%E9%9B%862/">dp合集2</a>
-          </li>
-        
-          <li>
-            <a href="/2025/04/07/dp%E5%90%88%E9%9B%861/">dp合集1</a>
-          </li>
-        
-          <li>
-            <a href="/2025/04/07/Lc322%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/">Lc322零钱兑换</a>
-          </li>
-        
-          <li>
-            <a href="/2025/04/02/%E6%AF%8F%E6%97%A5LC494%E7%9B%AE%E6%A0%87%E5%92%8C/">每日LC494目标和</a>
           </li>
         
       </ul>
